@@ -8,19 +8,19 @@ for src in orig/egginc/*.png orig/egginc-extras/**/*.png; do
     dst=$src:r.webp
     ((( force )) || [[ ! -e $dst ]]) && {
         echo "$src => $dst"
-        convert $src -define webp:lossless=true $dst
+        magick $src -define webp:lossless=true $dst
     }
     for size in 32 64 128 256; do
         dst=${size}/${src#orig/}
         ((( force )) || [[ ! -e $dst ]]) && {
             echo "$src => $dst"
-            convert $src -resize ${size}x${size} $dst
+            magick $src -resize ${size}x${size} $dst
             optipng -quiet $dst
         }
         dst=$dst:r.webp
         ((( force )) || [[ ! -e $dst ]]) && {
             echo "$src => $dst"
-            convert $src -resize ${size}x${size} $dst
+            magick $src -resize ${size}x${size} $dst
         }
     done
 done
